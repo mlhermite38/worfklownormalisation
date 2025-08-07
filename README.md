@@ -1,44 +1,47 @@
 ```mermaid
 graph TD
-    classDef decision fill:#e6f2ff,stroke:#0066cc;
-    classDef process fill:#f0f0f0,stroke:#555;
-    classDef meeting fill:#fff0b3,stroke:#ff9900;
-    classDef endNode fill:#e6ffe6,stroke:#009900;
+    %% Définition des acteurs sous forme de "swimlanes" (couloirs)
 
-    subgraph Phase 1 Initialisation
-        A(Initier le workflow<br>Renseigner infos normatives):::process;
-        B{Type d'évolution?}:::decision;
-        C1(Analyse par Resp. BE):::process;
-        C2(Analyse par Resp. Tests R&D):::process;
-        D{Complément d'info?}:::decision;
+    subgraph Pilote Normalisation
+        A(Initier le workflow<br>Renseigner infos normatives);
+        D{Complément d'info?};
     end
 
-    subgraph Phase 2 SAP Tech - Évaluation
-        E(SAP Tech 1: Évaluation de l'impact):::meeting;
-        F{Quel est l'impact potentiel?}:::decision;
-        G([Fin du workflow]):::endNode;
-        H(Plan d'action initial<br>Lobbying, Modif...):::process;
-        I([Fin du workflow]):::endNode;
-    end
-
-    subgraph Phase 3 Essais R&D
-        J(Assigner les essais):::process;
-        K{Prototypes disponibles?}:::decision;
-        L(Réaliser essais partiels):::process;
-        M(Réaliser essais complets):::process;
-        N(Mise en stand-by<br>pour futurs prototypes):::process;
-    end
-
-    subgraph Phase 4 SAP Tech - Débriefing
-        O(SAP Tech 2: Débriefing<br>des résultats):::meeting;
-        P{Débriefing final?}:::decision;
-        Q{Conclusion finale?}:::decision;
-        R([Fin du workflow]):::endNode;
-        S(Plan d'action final):::process;
-        T([Fin du workflow]):::endNode;
+    subgraph Responsable BE
+        C1(Analyse par Resp. BE);
     end
     
-    A --> B;
+    subgraph Responsable Tests R&D
+        C2(Analyse par Resp. Tests R&D);
+        J(Assigner les essais);
+    end
+
+    subgraph Technicien Tests R&D
+        K{Prototypes disponibles?};
+        L(Réaliser essais partiels);
+        M(Réaliser essais complets);
+        N(Mise en stand-by<br>pour futurs prototypes);
+    end
+
+    subgraph Réunion SAP Tech (Instance de décision)
+        E(SAP Tech 1: Évaluation de l'impact);
+        F{Quel est l'impact potentiel?};
+        H(Plan d'action initial<br>Lobbying, Modif...);
+        O(SAP Tech 2: Débriefing<br>des résultats);
+        P{Débriefing final?};
+        Q{Conclusion finale?};
+        S(Plan d'action final);
+    end
+
+    subgraph Fin du Processus
+        G([Fin du workflow]);
+        I([Fin du workflow]);
+        R([Fin du workflow]);
+        T([Fin du workflow]);
+    end
+
+    %% Connexions du workflow entre les acteurs
+    A --> B{Type d'évolution?};
     B -- Exigence de performance --> C1;
     B -- Méthode d'essai --> C2;
     C1 --> D;
@@ -62,3 +65,11 @@ graph TD
     Q -- Absence d'impact --> R;
     Q -- Impact confirmé --> S;
     S --> T;
+
+    %% Style (optionnel, mais améliore la lisibilité)
+    classDef decision fill:#e6f2ff,stroke:#0066cc;
+    classDef meeting fill:#fff0b3,stroke:#ff9900;
+    classDef endNode fill:#e6ffe6,stroke:#009900;
+    class B,D,F,K,P,Q decision;
+    class E,H,O,S meeting;
+    class G,I,R,T endNode;
