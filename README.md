@@ -1,13 +1,11 @@
 ```mermaid
-graph TD;
-    %% Définition des styles pour les noeuds
+graph TD
     classDef decision fill:#e6f2ff,stroke:#0066cc;
     classDef process fill:#f0f0f0,stroke:#555;
     classDef meeting fill:#fff0b3,stroke:#ff9900;
     classDef endNode fill:#e6ffe6,stroke:#009900;
 
-    %% Phase 1: Initialisation
-    subgraph "Phase 1: Initialisation"
+    subgraph Phase 1 Initialisation
         A(Initier le workflow<br>Renseigner infos normatives):::process;
         B{Type d'évolution?}:::decision;
         C1(Analyse par Resp. BE):::process;
@@ -15,8 +13,7 @@ graph TD;
         D{Complément d'info?}:::decision;
     end
 
-    %% Phase 2: Première Décision
-    subgraph "Phase 2: SAP Tech - Évaluation"
+    subgraph Phase 2 SAP Tech - Évaluation
         E(SAP Tech 1: Évaluation de l'impact):::meeting;
         F{Quel est l'impact potentiel?}:::decision;
         G([Fin du workflow]):::endNode;
@@ -24,8 +21,7 @@ graph TD;
         I([Fin du workflow]):::endNode;
     end
 
-    %% Phase 3: Vérification et Essais
-    subgraph "Phase 3: Essais R&D"
+    subgraph Phase 3 Essais R&D
         J(Assigner les essais):::process;
         K{Prototypes disponibles?}:::decision;
         L(Réaliser essais partiels):::process;
@@ -33,8 +29,7 @@ graph TD;
         N(Mise en stand-by<br>pour futurs prototypes):::process;
     end
 
-    %% Phase 4: Deuxième Décision
-    subgraph "Phase 4: SAP Tech - Débriefing"
+    subgraph Phase 4 SAP Tech - Débriefing
         O(SAP Tech 2: Débriefing<br>des résultats):::meeting;
         P{Débriefing final?}:::decision;
         Q{Conclusion finale?}:::decision;
@@ -43,7 +38,6 @@ graph TD;
         T([Fin du workflow]):::endNode;
     end
     
-    %% Connexions du workflow
     A --> B;
     B -- Exigence de performance --> C1;
     B -- Méthode d'essai --> C2;
@@ -59,11 +53,11 @@ graph TD;
     J --> K;
     K -- Non --> L;
     K -- Oui --> M;
-    L --> O; %% Changement: les résultats partiels vont aussi au débriefing
+    L --> O;
     M --> O;
     O --> P;
     P -- Non (partiel) --> N;
-    N --> K; %% Boucle d'attente des prototypes
+    N --> K;
     P -- Oui (final) --> Q;
     Q -- Absence d'impact --> R;
     Q -- Impact confirmé --> S;
