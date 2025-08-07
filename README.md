@@ -6,7 +6,7 @@ graph TD
         D{"Complément d'info?"};
     end
 
-    subgraph Responsable_BE [Pilote SAP Tech]
+    subgraph Responsable_BE
         C1("Analyse pré-SAP Tech");
         E("SAP Tech 1: Évaluation de l'impact");
         F{"Quel est l'impact potentiel?"};
